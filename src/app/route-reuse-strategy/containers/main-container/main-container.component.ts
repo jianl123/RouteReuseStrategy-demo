@@ -58,9 +58,15 @@ export class MainContainerComponent implements OnInit, OnDestroy {
 
   closeTab({ index }: { index: number }): void {
     const tab: tabItem = this.tabs[index];
-    SimpleReuseStrategy.deleteRouteCache(tab.url);
     this.tabs.splice(index, 1);
-    this.toDetail( 0 );
+    setTimeout(() => {
+      SimpleReuseStrategy.deleteRouteCache(tab.url);
+    }, 0);
+    if (this.index === index) {
+      this.toDetail(0);
+    } else if (this.index > index) {
+      this.index--;
+    }
   }
 
   toDetail(index) {
